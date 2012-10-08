@@ -53,6 +53,33 @@ class HomeController extends AppController {
  * @param mixed What page to display
  * @return void
  */
+	
+	public function beforeFilter() {
+		if ($this->action == 'index') {
+			$name = $this->Session->read('name');
+			$role = $this->Session->read('role');
+			if (isset($name)) {
+				switch ($role)
+				{
+					case 1:
+						$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'index'));
+						break;
+					case 2:
+						$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
+						break;
+					case 3:
+						$this->redirect(array('controller' => 'Employee', 'action' => 'index'));
+						break;
+					default:
+						echo "User";
+						break;
+				}	
+			}
+			
+		}
+		
+	}
+	
 	public function index() {
 		$title_for_layout = 'Home';
 		$this->set(compact('title_for_layout'));
