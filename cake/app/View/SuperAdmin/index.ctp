@@ -25,7 +25,7 @@
 				<?php 
 					echo $this->Html->link('Pending Users',array('controller' => 'SuperAdmin', 'action' => 'pendingUsers'),array('class' => 'btn'));
 					//controller and action are yet to be made for profile and add project button
-					echo $this->Html->link('Profile',array('controller' => 'Home', 'action' => 'pendingUsers'),array('class' => 'btn'));
+					echo $this->Html->link('Profile',array('controller' => 'Home', 'action' => 'userProfile'),array('class' => 'btn'));
 					echo $this->Html->link('Add Project',array('controller' => 'Home', 'action' => 'pendingUsers'),array('class' => 'btn'));
 				?>
 			</div>

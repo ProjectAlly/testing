@@ -7,6 +7,16 @@
 		
 		public $uses = array('UserInfo', 'Register');
 		
+		public function beforeFilter() {
+			$name = $this->Session->read('name');
+			if (isset($name)) {
+				
+			}
+			else {
+				$this->redirect(array('controller' => 'Home', 'action' => 'index'));
+			}
+		}
+		
 		public function index() {
 			$title_for_layout = 'Home';
 			$this->set(compact('title_for_layout'));

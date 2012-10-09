@@ -45,7 +45,7 @@ class HomeController extends AppController {
  *
  * @var array
  */
-	public $uses = array('UserInfo', 'Register');
+	public $uses = array('UserInfo', 'Register', 'Profile');
 
 /**
  * Displays a view
@@ -75,7 +75,6 @@ class HomeController extends AppController {
 						break;
 				}	
 			}
-			
 		}
 		
 	}
@@ -142,12 +141,46 @@ class HomeController extends AppController {
 	
 	public function userProfile($id = null) {
 		$this->Register->id = $id;
+		
+		$this->set('user', $this->Register->find('first', array('conditions' => 
+												array('Register.userName' => $this->Session->read('name')))));
+		$this->set('proUser', $this->Profile->find('first', array('conditions' => 
+												array('Profile.userName' => $this->Session->read('name')))));
+	}
+	
+	public function viewProfile($id = null){
+		$this->Register->id = $id;
 		$this->set('user', $this->Register->find('first', array('conditions' => array('Register.id' => $id))));
+		$this->set('proUser', $this->Profile->find('first', array('conditions' => array('Profile.id' => $id))));
+		
 	}
 	
 	
 	public function test() {
 		echo "you successfully registered with projectally....kindly wait till admin approves yours request.";
+	}
+	
+	public function editProfile(){
+		$this->set('user', $this->Register->find('first', array('conditions' => 
+													array('Register.userName' => $this->Session->read('name')))));
+		$this->set('proUser', $this->Profile->find('first', array('conditions' => 
+													array('Profile.userName' => $this->Session->read('name')))));
+	}
+	
+	public function updateProfile(){
+		$this->Profile->updateAll(array('Profile.inputEmail' => "'".$this->data['Profile']['inputEmail']."'",
+										'Profile.userDob' => "'".$this->data['Profile']['userDob']."'", 
+										'Profile.userGender' => "'".$this->data['Profile']['userGender']."'", 
+										'Profile.workEmail' => "'".$this->data['Profile']['workEmail']."'", 
+										'Profile.userAddress' => "'".$this->data['Profile']['userAddress']."'", 
+										'Profile.userMobile' => "'".$this->data['Profile']['userMobile']."'", 
+										'Profile.userHome' => "'".$this->data['Profile']['userHome']."'"),
+								  array('Profile.userName' => $this->Session->read('name')));
+			
+		$this->Register->updateAll(array('Register.inputEmail' => "'".$this->data['Profile']['inputEmail']."'"),
+								  array('Register.userName' => $this->Session->read('name')));
+		
+		$this->redirect(array('controller' => 'Home', 'action' => 'userProfile'));
 	}
 	
 	public function message() {

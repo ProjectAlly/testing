@@ -47,11 +47,6 @@
 						  <?php	if(isset($proUser['Profile']['userHome'])) 
 								echo $proUser['Profile']['userHome']; ?>
 				<br/> <br/>
-				<?php
-				 
-					echo $this->Html->link('Edit Profile',array('controller' => 'Home', 
-																'action' => 'editProfile'),array('class' => 'btn'));
-				?>
 			</div>
 		</div>
 	</div>
