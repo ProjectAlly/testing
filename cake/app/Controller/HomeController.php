@@ -45,7 +45,7 @@ class HomeController extends AppController {
  *
  * @var array
  */
-	public $uses = array('UserInfo', 'Register', 'Profile');
+	public $uses = array('UserInfo', 'Register', 'Profile','AddProject');
 
 /**
  * Displays a view
@@ -189,5 +189,31 @@ class HomeController extends AppController {
 	
 	public function loginfailure() {
 		
+	}
+	
+	public function addProject() {
+		if(!empty($this->data)){
+			if($this->AddProject->save($this->data)){
+				$role = $this->Session->read('role');
+				switch ($role)
+				{
+					case 1:
+						$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'index'));
+						break;
+					case 2:
+						$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
+						break;
+					case 3:
+						$this->redirect(array('controller' => 'Employee', 'action' => 'index'));
+						break;
+					default:
+						echo "User";
+						break;
+				}
+				
+			} else {
+				$this->Session->setFlash('Your stuff has been saved.');
+			}
+		}
 	}
 }
