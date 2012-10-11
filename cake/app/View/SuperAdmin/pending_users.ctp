@@ -39,7 +39,7 @@
 						?> 
 							<tr>
 								<td> <?php echo $this->Html->link($user['Register']['userName'], 
-															array('controller' => 'Home', 'action' => 'userProfile', $user['Register']['id'])); ?> </td>
+															array('controller' => 'Home', 'action' => 'viewProfile', $user['Register']['id'])); ?> </td>
 								<td> <?php echo $user['Register']['companyName'];?> </td>
 								<td> <?php echo "Approved"; ?> </td>
 								<td></td>
@@ -57,7 +57,7 @@
 							?> 
 							<tr>
 								<td> <?php echo $this->Html->link($user['Register']['userName'], 
-															array('controller' => 'Home', 'action' => 'userProfile', $user['Register']['id'])); ?> </td>
+															array('controller' => 'Home', 'action' => 'viewProfile', $user['Register']['id'])); ?> </td>
 								<td> <?php echo $user['Register']['companyName'];?> </td>
 								<td> <?php echo "Pending"; ?> </td>
 								<td>
