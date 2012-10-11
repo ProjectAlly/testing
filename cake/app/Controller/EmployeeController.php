@@ -8,6 +8,10 @@
 		public $uses = array('UserInfo', 'Register');
 
 		public function beforeFilter() {
+			
+			//to prevent going back after logout is clicked
+			$this->disableCache();
+			
 			$name = $this->Session->read('name');
 			if (isset($name)) {
 				
