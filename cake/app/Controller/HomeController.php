@@ -198,7 +198,7 @@ class HomeController extends AppController {
 				switch ($role)
 				{
 					case 1:
-						$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'index'));
+						$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'listProject'));
 						break;
 					case 2:
 						$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
@@ -216,4 +216,6 @@ class HomeController extends AppController {
 			}
 		}
 	}
+	
+	
 }

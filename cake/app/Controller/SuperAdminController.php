@@ -5,7 +5,7 @@
 		public $components = array('Session');
 
 		
-		public $uses = array('UserInfo', 'Register');
+		public $uses = array('UserInfo', 'Register','AddProject');
 		
 		public function beforeFilter() {
 			
@@ -40,7 +40,35 @@
 		
 		public function pendingUsers() {
 			$this->set(compact('title_for_layout'));
-			$this->set('users', $this->Register->find('all', array('conditions' => array('Register.id >' => 'Register.id'))));
+			$this->set('users', $this->Register->find('all'));
+		}
+		
+		public function listProject() {
+			$this->set(compact('title_for_layout'));
+			$this->set('projects', $this->AddProject->find('all'));
+		}
+		
+		public function viewProject($id = null) {
+			$this->AddProject->id = $id;
+			$this->set('project', $this->AddProject->find('first', array('conditions' => 
+																		array('AddProject.id' => $id))));
+			$this -> set('users', $this->Register->find('all' ,array('conditions' => 
+																	array('Register.id >' => 'Register.id',
+																	'Register.status' => '1'))));
+		}
+		
+		public function addMember($id = null) {
+
+			$user_id = $this->params['named']['user_id'];
+			$proj_id = $this->params['named']['proj_id'];
+			echo $this->['AddProject']['projectMembers'];
+			exit;
+			if ('AddProject.projectMembers' == null)
+			{
+				$this->AddProject->UpdateAll(array('AddProject.projectMembers' => $user_id),
+											array('AddProject.id' => $proj_id));	
+			}
+			$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'viewProject'));
 		}
 	
 	}
