@@ -1,6 +1,4 @@
 <?php
-
-	//i love you 2
 	class AdminController extends AppController{
 		public $name = 'Admin';
 		public $helpers = array('Html','Form');
