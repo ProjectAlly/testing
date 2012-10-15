@@ -105,6 +105,7 @@ class HomeController extends AppController {
 		
 		$this->Session->write('name',$test['UserInfo']['userName']);
 		$this->Session->write('role',$test['UserInfo']['userRole']);
+		$this->Session->write('id',$test['UserInfo']['id']);
 		//print_r($test);
 		
 		if ($test == null)
@@ -125,7 +126,7 @@ class HomeController extends AppController {
 					$this->redirect(array('controller' => 'Employee', 'action' => 'index'));
 					break;
 				default:
-					echo "User";
+					$this->redirect(array('controller' => 'User', 'action' => 'index'));
 					break;
 			}
 		}
@@ -139,20 +140,17 @@ class HomeController extends AppController {
 		$this->redirect(array('controller' => 'home', 'action' => 'index'));
 	}
 	
-	public function userProfile($id = null) {
-		$this->Register->id = $id;
-		
+	public function userProfile() {
 		$this->set('user', $this->Register->find('first', array('conditions' => 
-												array('Register.userName' => $this->Session->read('name')))));
+												array('Register.id' => $this->Session->read('id')))));
 		$this->set('proUser', $this->Profile->find('first', array('conditions' => 
-												array('Profile.userName' => $this->Session->read('name')))));
+												array('Profile.id' => $this->Session->read('id')))));
 	}
 	
 	public function viewProfile($id = null){
 		$this->Register->id = $id;
 		$this->set('user', $this->Register->find('first', array('conditions' => array('Register.id' => $id))));
 		$this->set('proUser', $this->Profile->find('first', array('conditions' => array('Profile.id' => $id))));
-		
 	}
 	
 	
@@ -162,27 +160,30 @@ class HomeController extends AppController {
 	
 	public function editProfile(){
 		$this->set('user', $this->Register->find('first', array('conditions' => 
-													array('Register.userName' => $this->Session->read('name')))));
+													array('Register.id' => $this->Session->read('id')))));
 		$this->set('proUser', $this->Profile->find('first', array('conditions' => 
-													array('Profile.userName' => $this->Session->read('name')))));
+													array('Profile.id' => $this->Session->read('id')))));
 	}
 	
 	public function updateProfile(){
-		$this->Profile->updateAll(array('Profile.inputEmail' => "'".$this->data['Profile']['inputEmail']."'",
+		$this->Profile->updateAll(array('Profile.userName' => "'".$this->data['Profile']['userName']."'",
+										'Profile.inputEmail' => "'".$this->data['Profile']['inputEmail']."'",
 										'Profile.userDob' => "'".$this->data['Profile']['userDob']."'", 
 										'Profile.userGender' => "'".$this->data['Profile']['userGender']."'", 
 										'Profile.workEmail' => "'".$this->data['Profile']['workEmail']."'", 
 										'Profile.userAddress' => "'".$this->data['Profile']['userAddress']."'", 
 										'Profile.userMobile' => "'".$this->data['Profile']['userMobile']."'", 
+										'Profile.userPhoto' => "'".$this->data['Profile']['userPhoto']."'", 
 										'Profile.userHome' => "'".$this->data['Profile']['userHome']."'"),
-								  array('Profile.userName' => $this->Session->read('name')));
+								  array('Profile.id' => $this->Session->read('id')));
 			
-		$this->Register->updateAll(array('Register.inputEmail' => "'".$this->data['Profile']['inputEmail']."'"),
-								  array('Register.userName' => $this->Session->read('name')));
+		$this->Register->updateAll(array('Register.userName' => "'".$this->data['Profile']['userName']."'",
+										'Register.inputEmail' => "'".$this->data['Profile']['inputEmail']."'"),
+								  array('Register.id' => $this->Session->read('id')));
 		
 		$this->redirect(array('controller' => 'Home', 'action' => 'userProfile'));
 	}
-	
+
 	public function message() {
 		
 	}
@@ -190,7 +191,7 @@ class HomeController extends AppController {
 	public function loginfailure() {
 		
 	}
-	
+			
 	public function addProject() {
 		if(!empty($this->data)){
 			if($this->AddProject->save($this->data)){
@@ -218,4 +219,17 @@ class HomeController extends AppController {
 	}
 	
 	
+	public function listProject() {
+		$this->set(compact('title_for_layout'));
+		$this->set('projects', $this->AddProject->find('all'));
+	}
+	
+	public function viewMembers($id = null) {
+		$this->AddProject->id = $id;
+		$this->set('project', $this->AddProject->find('first', array('conditions' => 
+																	array('AddProject.id' => $id))));
+		$this -> set('users', $this->Register->find('all' ,array('conditions' => 
+																array('Register.id >' => 'Register.id',
+																'Register.status' => '1'))));
+	}
 }

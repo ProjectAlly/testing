@@ -36,8 +36,12 @@
 							foreach ($projects as $project):
 						?> 
 							<tr>
-								<td> <?php echo $this->Html->link($project['AddProject']['projectName'], 
-															array('controller' => 'SuperAdmin', 'action' => 'viewProject', $project['AddProject']['id'])); ?> </td>
+								<td> <?php //echo $this->Html->link($project['AddProject']['projectName'], 
+										   //				array('controller' => 'Home', 'action' => 'viewProject', $project['AddProject']['id'])); 
+										   
+									echo $project['AddProject']['projectName'];
+								?> 
+								</td>
 								<td> <?php echo $project['AddProject']['id'];?> </td>
 								<td> <?php echo $this->Html->link('View Members',array('controller' => 'Home', 'action' => 'viewMembers', $project['AddProject']['id']),array('class' => 'btn btn-info')); ?> </td>
 							</tr>
@@ -47,11 +51,6 @@
 						?>
 					</tbody>
 				</table>
-				<?php 
-					echo $this->Html->link('Add Project',
-										array('controller' => 'Home', 'action' => 'addProject'),
-										array('class' => 'btn'));
-				?>
 			</div>
 		</div>
 	</div>

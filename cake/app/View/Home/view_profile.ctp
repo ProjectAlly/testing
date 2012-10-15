@@ -44,6 +44,7 @@
 				
 				Contacts: <?php if(isset($proUser['Profile']['userMobile'])) 
 								echo $proUser['Profile']['userMobile']; ?><br/>
+				
 						  <?php	if(isset($proUser['Profile']['userHome'])) 
 								echo $proUser['Profile']['userHome']; ?>
 				<br/> <br/>

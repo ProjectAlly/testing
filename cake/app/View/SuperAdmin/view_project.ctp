@@ -25,6 +25,11 @@
 				<!-- form using cakephp -->
 				<?php //echo $this->Html->image($proUser['Profile']['userPhoto'], array('class' => 'img-polaroid'));?>
 				<h1><?php echo $project['AddProject']['projectName']; ?></h1><br/>
+				<h3><?php echo $project['AddProject']['projectDescription']; ?></h3><br/>
+
+				<?php 					
+					echo $this->element('view_members'); 
+				?>
 				
 				<br/> <br/>
 				<!-- list of users that can be added goes here -->
@@ -44,9 +49,6 @@
 							foreach ($users as $user):
 						?> 
 							<tr>
-								<td> <?php echo $this->Html->link($user['Register']['userName'], 
-															array('controller' => 'Home', 'action' => 'viewProfile', $user['Register']['id'])); ?> </td>
-								<td> <?php echo $user['Register']['companyName'];?> </td>
 								<?php 
 									foreach ($addedmembers as $addedmember):
 										//echo $addedmember . "<br>";
@@ -63,20 +65,16 @@
 									if ($flag == 0)
 									{
 								?>
+								<td> <?php echo $this->Html->link($user['Register']['userName'], 
+															array('controller' => 'Home', 'action' => 'viewProfile', $user['Register']['id'])); ?> </td>
+								<td> <?php echo $user['Register']['companyName'];?> </td>
 								<td> <?php echo $this->Html->link('Add User', array('controller' => 'SuperAdmin', 'action' =>'addMember','user_id' => $user['Register']['id'], 'proj_id' => $project['AddProject']['id'])); ?>
 							    </td>
 							    <?php 
-										}
-										else
-										{
-							    ?>
-								<td> <?php echo 'Add User'; ?>
-							    </td>
-							<?php 
-										}
-								
-							?>
+									}
+								?>
 							</tr>
+							
 						<?php 
 							endforeach;
 						?>

@@ -8,15 +8,13 @@
 ?>
 
 <html lang="en">
-
-	<div class="container-fluid">
+<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span2">
 				<!-- Sidebar content -->
 				<?php 
 					echo $this->Html->link('Logout',array('controller' => 'Home', 'action' => 'logout'),array('class' => 'btn'));
 				?>
-				
 				<?php 
 				  	echo $this->Session->read('name');
 				?>
@@ -33,5 +31,4 @@
 			</div>
 		</div>
 	</div>
-
 </html>

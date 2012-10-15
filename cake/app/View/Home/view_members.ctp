@@ -21,13 +21,12 @@
 			</div>
 			<div class="span10">
 				<!-- Main content -->
-				<!-- form using cakephp -->
-				<?php 
-					//controller and action are yet to be made for profile and add project button
-					echo $this->Html->link('Profile',array('controller' => 'Home', 'action' => 'userProfile'),array('class' => 'btn'));
-					echo $this->Html->link('Project',array('controller' => 'Home', 'action' => 'listProject'),array('class' => 'btn'));
+				<?php
+					//file used View/Element/view_member.ctp 					
+					echo $this->element('view_members'); 
 				?>
 			</div>
 		</div>
 	</div>
+
 </html>
