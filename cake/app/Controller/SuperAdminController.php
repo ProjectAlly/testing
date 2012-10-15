@@ -5,7 +5,7 @@
 		public $components = array('Session');
 
 		
-		public $uses = array('UserInfo','Register','AddProject','Profile');
+		public $uses = array('UserInfo','Register','AddProject', 'Profile');
 		
 		public function beforeFilter() {
 			
