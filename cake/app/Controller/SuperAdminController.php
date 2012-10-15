@@ -61,14 +61,24 @@
 
 			$user_id = $this->params['named']['user_id'];
 			$proj_id = $this->params['named']['proj_id'];
-			echo $this->['AddProject']['projectMembers'];
-			exit;
-			if ('AddProject.projectMembers' == null)
+			$project = $this->AddProject->find('first',array('conditions' =>
+																		array('AddProject.id' => $proj_id)));
+			//echo $project['AddProject']['projectMembers'];
+			//exit;
+			if ($project['AddProject']['projectMembers'] == null)
 			{
-				$this->AddProject->UpdateAll(array('AddProject.projectMembers' => $user_id),
+				$this->AddProject->UpdateAll(array('AddProject.projectMembers' => "'$user_id'"),
 											array('AddProject.id' => $proj_id));	
 			}
-			$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'viewProject'));
+			else 
+			{
+				$users_id = $project['AddProject']['projectMembers'] . ',' . $user_id;
+				$this->AddProject->UpdateAll(array('AddProject.projectMembers' => "'$users_id'"),
+											array('AddProject.id' => $proj_id));
+				
+			
+			}
+			$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'viewProject', $proj_id));
 		}
 	
 	}
