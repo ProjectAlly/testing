@@ -34,16 +34,20 @@
 		
 		public function approveUser($id = null) {
 			$this->Register->id = $id;
-			$this->Register->updateAll(array('Register.status' => '1'), array('Register.id' => $id));
-			
 			//Problem in creating profile of User.... Data is not saved in Profile table.... Will have to look at this once...
 			
-			$this->set('user', $this->Register->find('first',array('conditions' => array('Register.id' => $id))));
+			$user = $this->Register->find('first',array('conditions' => array('Register.id' => $id)));
+			echo $user['Register']['userName'];
+			//$data = array('Profile.id' => $id);
+			//echo $data;
+			$this->Profile->saveField('Profile.id', $id);
+			//								'Profile.userName' => $user['Register']['userName'],
+			//								'Profile.inputEmail' => $user['Register']['inputEmail']));
+
+			//$this->Register->updateAll(array('Register.status' => '1'), array('Register.id' => $id));
 			
-			$this->Profile->save(array('Profile.id' => $user['Register']['id'],
-							'Profile.userName' => $user['Register']['userName'],
-							'Profile.inputEmail' => $user['Register']['inputEmail']));
-			$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'pendingUsers'));
+			
+			//$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'pendingUsers'));
 		}
 		
 		public function pendingUsers() {

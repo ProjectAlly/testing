@@ -1,8 +1,8 @@
 <?php 
 	//echo "<pre>";
 	//print_r($this->params['controller']);
-	$cont = $this->params['controller'];
-	$act = $this->params['action'];
+	//$cont = $this->params['controller'];
+	//$act = $this->params['action'];
 	/*echo $cont;
 	echo "<br>";
 	echo $act;
