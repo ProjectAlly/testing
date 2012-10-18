@@ -16,7 +16,6 @@
 <?php echo $this->Html->meta('description',''); ?>
 <?php echo $this->Html->meta(array('name' => 'author', 'content' => 'Hardik Shah')); ?>
 <?php echo $this->Html->meta(array('name' => 'viewport', 'content' => 'width=device-width')); ?>
-
 <?php echo $this->Html->css('bootstrap.min.css'); ?>
 <style>
 	body {
