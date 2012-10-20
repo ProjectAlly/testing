@@ -2,12 +2,7 @@
 <?php 
 	echo $this->Html->script('jquery.validate.js');
 	echo $this->Html->script('validate.js');
-
-	
-		
-	
-		echo $this->Html->script('unload.js');
-	
+	echo $this->Html->script('unload.js');
 	echo $this->Html->css('jquery.validate.css');
 ?>
 <html lang="en">
