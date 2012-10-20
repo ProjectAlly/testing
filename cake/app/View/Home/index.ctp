@@ -9,6 +9,7 @@
 		echo $this->Html->script('unload.js');
 	
 	echo $this->Html->css('jquery.validate.css');
+	//tset
 ?>
 <html lang="en">
 	<div class="container-fluid">
