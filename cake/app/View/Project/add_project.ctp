@@ -19,7 +19,7 @@
 				<legend>Add New Project</legend>
 				<table>
 					<?php
-						echo $this->Form->create('AddProject',array('class' => 'form-horizontal', 'url' => array('controller' => 'Home',
+						echo $this->Form->create('AddProject',array('class' => 'form-horizontal', 'url' => array('controller' => 'Project',
 																										'action' => 'addProject')));
 					?>
 					<tr>

@@ -4,21 +4,14 @@
 	echo $this->Html->script('jquery-1.8.0.min.js');
 	echo $this->Html->script('jquery-ui-1.8.23.custom.min.js');
 	echo $this->Html->css('jquery-ui-1.8.23.custom.css');
-	echo $this->element('crumbs', array("cont" => "Super Admin", "act" => " "));
-	echo $this->element('crumbs', array("cont" => "Super Admin", "act" => " "));
+	
 ?>
 <html lang="en">
 	<div class="container-fluid">
 		<div class="row-fluid">
 				<div class="span2">
 					<!-- Sidebar content -->
-					<?php 
-						echo $this->Html->link('Logout',array('controller' => 'Home', 'action' => 'logout'),array('class' => 'btn'));
-					?>
-					
-					<?php 
-					  	echo $this->Session->read('name');
-					?>
+				<?php echo $this->element('sidebar/fix_side'); ?>
 				</div>
 				
 				<div class="span10">
@@ -47,13 +40,13 @@
 						<?php
 							$members = $project['AddProject']['projectMembers'];
 							$addedmembers = explode(",", $members);
-							foreach ($users as $user):
+							foreach ($users as $proUser):
 						?> 
 							<tr>
 								<?php 
 									foreach ($addedmembers as $addedmember):
 										//echo $addedmember . "<br>";
-										if ($addedmember != $user['Register']['id'])
+										if ($addedmember != $proUser['Profile']['id'])
 										{
 											$flag = 0;
 										}
@@ -66,10 +59,10 @@
 									if ($flag == 0)
 									{
 								?>
-								<td> <?php echo $this->Html->link($user['Register']['userName'], 
-															array('controller' => 'Home', 'action' => 'viewProfile', $user['Register']['id'])); ?> </td>
-								<td> <?php echo $user['Register']['companyName'];?> </td>
-								<td> <?php echo $this->Html->link('Add User', array('controller' => 'SuperAdmin', 'action' =>'addMember','user_id' => $user['Register']['id'], 'proj_id' => $project['AddProject']['id'])); ?>
+								<td> <?php echo $this->Html->link($proUser['Profile']['userName'], 
+															array('controller' => 'Employee', 'action' => 'viewProfile', $proUser['Profile']['id'])); ?> </td>
+								<td> <?php echo $proUser['Profile']['companyName'];?> </td>
+								<td> <?php echo $this->Html->link('Add User', array('controller' => 'Project', 'action' =>'addMember','user_id' => $proUser['Profile']['id'], 'proj_id' => $project['AddProject']['id'])); ?>
 							    </td>
 							    <?php 
 									}

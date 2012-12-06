@@ -22,19 +22,13 @@
 		<div class="row-fluid">
 			<div class="span2">
 				<!-- Sidebar content -->
-				<?php 
-					echo $this->Html->link('Logout',array('controller' => 'Home', 'action' => 'logout'),array('class' => 'btn'));
-				?>
-				
-				<?php 
-				  	echo $this->Session->read('name');
-				?>
+				<?php echo $this->element('sidebar/fix_side'); ?>
 			</div>
 			<div class="span10">
 				<!-- Main content -->
 				<!-- form using cakephp -->
 				<?php
-					echo $this->Form->create('Profile',array('class' => 'form-horizontal', 'url' => array('controller' => 'Home',
+					echo $this->Form->create('Profile',array('class' => 'form-horizontal', 'url' => array('controller' => 'Employee',
 																									'action' => 'updateProfile')));
 					echo $this->Html->image('default-profile.jpg', array('class' => 'img-polaroid'));
 					echo "<div class=\"control-group\">";
@@ -44,13 +38,13 @@
 					echo "<div class=\"control-group\">";
 						echo $this->Form->label('userName', 'Name', array('class' => 'control-label'));
 						echo $this->Form->input('userName', array('label' => false,
-															'value' => $user['Register']['userName']));
+															'value' => $proUser['Profile']['userName']));
 					echo "</div>";
 				
 					echo "<div class=\"control-group\">";
 						echo $this->Form->label('inputEmail', 'Email', array('class' => 'control-label'));
 						echo $this->Form->input('inputEmail', array('label' => false,
-															'value' => $user['Register']['inputEmail']));
+															'value' => $proUser['Profile']['inputEmail']));
 						echo "</div>";
 
 					echo "<div class=\"control-group\">";

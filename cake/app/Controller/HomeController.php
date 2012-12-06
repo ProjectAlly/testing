@@ -45,7 +45,7 @@ class HomeController extends AppController {
  *
  * @var array
  */
-	public $uses = array('UserInfo', 'Register', 'Profile','AddProject');
+	public $uses = array('UserInfo', 'Profile','AddProject');
 
 /**
  * Displays a view
@@ -55,135 +55,42 @@ class HomeController extends AppController {
  */
 	
 	public function beforeFilter() {
-		if ($this->action == 'index') {
+		//next two lines are to count the number of pending users
+		$notify = $this->Profile->find('count', array('conditions' => array('Profile.status' => 0)));
+		$this->set(compact('notify'));
+		
+		//$this->disableCache();
+		if ($this->params['action'] == 'index') {
 			$name = $this->Session->read('name');
 			$role = $this->Session->read('role');
 			if (isset($name)) {
-				switch ($role)
-				{
-					case 1:
-						$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'index'));
-						break;
-					case 2:
-						$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
-						break;
-					case 3:
-						$this->redirect(array('controller' => 'Employee', 'action' => 'index'));
-						break;
-					default:
-						echo "User";
-						break;
-				}	
+				$this->redirect(array('controller' => 'Home', 'action' => 'HomePage'));
 			}
 		}
-		
 	}
 	
 	public function index() {
 		$title_for_layout = 'Home';
 		$this->set(compact('title_for_layout'));
 		if(!empty($this->data)){
-			if($this->Register->save($this->data)){
+			if($this->Profile->save($this->data)){
 				echo "successful";
-				$this->redirect(array('controller' => 'Home', 'action' => 'message'));
-			} else {
 				$this->Session->setFlash('Your stuff has been saved.');
+			} else {
+				$this->Session->setFlash('Something went wrong please try again.');
 			}
+		$this->redirect(array('controller' => 'Home', 'action' => 'index'));
 		}
 	}
 	
-	public function authenticate() {
-		//echo "here";
-		//$test1 = $this->data['UserInfo']['inputEmail'];
-		$test = $this->UserInfo->Find('first',array('conditions' => 
-												array('UserInfo.inputEmail' => $this->data['UserInfo']['inputEmail'],
-													  'UserInfo.inputPassword' => $this->data['UserInfo']['inputPassword'],
-													  'UserInfo.status' => '1')));
-		
-												
-		echo "<pre>";
-		
-		$this->Session->write('name',$test['UserInfo']['userName']);
-		$this->Session->write('role',$test['UserInfo']['userRole']);
-		$this->Session->write('id',$test['UserInfo']['id']);
-		//print_r($test);
-		
-		if ($test == null)
-		{
-			$this->redirect(array('controller' => 'Home', 'action' => 'loginfailure'));
-		}
-		else 
-		{
-			switch ($test['UserInfo']['userRole'])
-			{
-				case 1:
-					$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'index'));
-					break;
-				case 2:
-					$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
-					break;
-				case 3:
-					$this->redirect(array('controller' => 'Employee', 'action' => 'index'));
-					break;
-				default:
-					$this->redirect(array('controller' => 'User', 'action' => 'index'));
-					break;
-			}
-		}
-		//echo $test['UserInfo']['accessPermission']; 
-		exit();
-		//print_r($this->UserInfo->Find('first'));
+	public function HomePage() {
+
 	}
-	
-	public function logout() {
-		$this->Session->destroy();
-		$this->redirect(array('controller' => 'home', 'action' => 'index'));
-	}
-	
-	public function userProfile() {
-		$this->set('user', $this->Register->find('first', array('conditions' => 
-												array('Register.id' => $this->Session->read('id')))));
-		$this->set('proUser', $this->Profile->find('first', array('conditions' => 
-												array('Profile.id' => $this->Session->read('id')))));
-	}
-	
-	public function viewProfile($id = null){
-		$this->Register->id = $id;
-		$this->set('user', $this->Register->find('first', array('conditions' => array('Register.id' => $id))));
-		$this->set('proUser', $this->Profile->find('first', array('conditions' => array('Profile.id' => $id))));
-	}
-	
 	
 	public function test() {
 		echo "you successfully registered with projectally....kindly wait till admin approves yours request.";
 	}
 	
-	public function editProfile(){
-		$this->set('user', $this->Register->find('first', array('conditions' => 
-													array('Register.id' => $this->Session->read('id')))));
-		$this->set('proUser', $this->Profile->find('first', array('conditions' => 
-													array('Profile.id' => $this->Session->read('id')))));
-	}
-	
-	public function updateProfile(){
-		$this->Profile->updateAll(array('Profile.userName' => "'".$this->data['Profile']['userName']."'",
-										'Profile.inputEmail' => "'".$this->data['Profile']['inputEmail']."'",
-										'Profile.userDob' => "'".$this->data['Profile']['userDob']."'", 
-										'Profile.userGender' => "'".$this->data['Profile']['userGender']."'", 
-										'Profile.workEmail' => "'".$this->data['Profile']['workEmail']."'", 
-										'Profile.userAddress' => "'".$this->data['Profile']['userAddress']."'", 
-										'Profile.userMobile' => "'".$this->data['Profile']['userMobile']."'", 
-										'Profile.userPhoto' => "'".$this->data['Profile']['userPhoto']."'", 
-										'Profile.userHome' => "'".$this->data['Profile']['userHome']."'"),
-								  array('Profile.id' => $this->Session->read('id')));
-			
-		$this->Register->updateAll(array('Register.userName' => "'".$this->data['Profile']['userName']."'",
-										'Register.inputEmail' => "'".$this->data['Profile']['inputEmail']."'"),
-								  array('Register.id' => $this->Session->read('id')));
-		
-		$this->redirect(array('controller' => 'Home', 'action' => 'userProfile'));
-	}
-
 	public function message() {
 		
 	}
@@ -192,44 +99,8 @@ class HomeController extends AppController {
 		
 	}
 			
-	public function addProject() {
-		if(!empty($this->data)){
-			if($this->AddProject->save($this->data)){
-				$role = $this->Session->read('role');
-				switch ($role)
-				{
-					case 1:
-						$this->redirect(array('controller' => 'SuperAdmin', 'action' => 'listProject'));
-						break;
-					case 2:
-						$this->redirect(array('controller' => 'Admin', 'action' => 'index'));
-						break;
-					case 3:
-						$this->redirect(array('controller' => 'Employee', 'action' => 'index'));
-						break;
-					default:
-						echo "User";
-						break;
-				}
-				
-			} else {
-				$this->Session->setFlash('Your stuff has been saved.');
-			}
-		}
-	}
-	
-	
 	public function listProject() {
 		$this->set(compact('title_for_layout'));
 		$this->set('projects', $this->AddProject->find('all'));
-	}
-	
-	public function viewMembers($id = null) {
-		$this->AddProject->id = $id;
-		$this->set('project', $this->AddProject->find('first', array('conditions' => 
-																	array('AddProject.id' => $id))));
-		$this -> set('users', $this->Register->find('all' ,array('conditions' => 
-																array('Register.id >' => 'Register.id',
-																'Register.status' => '1'))));
 	}
 }

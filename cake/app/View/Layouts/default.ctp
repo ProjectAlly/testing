@@ -45,26 +45,64 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="#">Project<span style="color: #52a8ec"><strong>Ally</strong></span></a>
+			<a class="brand" href="..Anson/Home">Project<span style="color: #52a8ec"><strong>Ally</strong></span></a>
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="..Anson/Home">Home</a></li>
 					<li><a href="#about">About</a></li>
 					<li><a href="#contact">Contact</a></li>
-					<li><a href="#contact">Contact</a></li>
 				</ul>
-				<div style="float: right;" class="dropdown" >
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown trigger</a>
-					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-						<li><input type="text"></li>
-					</ul>
-				</div>
 			</div>
 			
 			<!--/.nav-collapse -->
 		</div>
 	</div>
 </div>
+	<div id="add-navbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+
+
+			<?php
+			//Following code is to notify number of pending users to superadmin.
+			$role = $this->Session->read('role');	 
+			$name = $this->Session->read('name');
+			if(isset($name)) {?>
+			<ul class="nav nav-pills">
+				<?php if ($role == 1)
+				{?>
+				<li class="pull-right">
+				    <?php 
+						echo $this->Html->link($notify,array('controller' => 'Employee', 'action' => 'pendingUsers'),array('class' => 'badge badge-important'));
+					?>
+				</li>
+				<?php } 
+				//code ends here
+				?>
+				<!-- Code for logout and myprofile -->
+			  	<li class="dropdown pull-right">
+				    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				        <?php echo $name; ?>
+				        
+				        <b class="caret"></b>
+				    </a>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+					  <!-- <li><a href="#">Action</a></li>
+					  <li><a href="#">Another action</a></li>-->
+					  
+					  <li><a href="../Employee/userProfile">My Profile</a></li>
+					  <li class="divider"></li>
+					  <li><a href="../Home/logout">Logout</a></li>
+					</ul>
+								   
+			  	</li>
+			</ul>
+			
+			<?php } ?>
+			<!-- code ends here -->		
+	</div>
+
 <div class="container">
 	<div id="content">
 
@@ -75,7 +113,7 @@
 	<hr>
 	<footer>
 	<p>
-		&copy; Company 2012
+		&copy; 2012 Aecor Technologies
 	</p>
 	</footer>
 </div>
